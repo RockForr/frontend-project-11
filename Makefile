@@ -1,8 +1,8 @@
 develop:
-	npx webpack serve
+	sudo npx webpack serve
 
 install:
-	npm ci
+	sudo npm ci
 
 build:
 	NODE_ENV=production npx webpack
