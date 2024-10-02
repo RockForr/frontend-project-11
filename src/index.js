@@ -25,8 +25,8 @@ const elements = {
     post: document.querySelector('.posts'),
 };
 
-const i18nextInstans = i18next.createInstance();
-i18nextInstans.init({
+const i18nextInstance = i18next.createInstance();
+i18nextInstance.init({
     lng: 'ru',
     debug: true,
     resourses: { ru },
@@ -96,4 +96,4 @@ i18nextInstans.init({
     updatePosts();
   });
   
-  export default i18nextInstans;
+  export default i18nextInstance;

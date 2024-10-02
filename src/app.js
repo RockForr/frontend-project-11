@@ -41,7 +41,7 @@ const watchedState = onChange(state, (path, value) => {
       render.posts(watchedState.data.posts);
       break;
     default:
-      throw new Error('Неизвестная ошибка, попробуйте еще раз');
+      throw new Error('Неизвестная ошибка');
   }
 });
 
