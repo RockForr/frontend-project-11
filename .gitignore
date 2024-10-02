@@ -1,2 +1,9 @@
 node_modules/
-1/
+/test-results
+tests/
+test-examples/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+dist/
+playwright.config.js
