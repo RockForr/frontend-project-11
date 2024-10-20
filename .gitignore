@@ -1,9 +1,3 @@
 node_modules/
-/test-results
-tests/
-tests-examples/
-/playwright-report/
-/blob-report/
-/playwright/.cache/
 dist/
-playwright.config.js
+.sass-cache/

@@ -6,7 +6,7 @@ import _ from 'lodash';
 import parseFeedData from './parser.js';
 import watch from './view.js';
 import resources from './locales/index.js';
-import customMessages from './locales/customErrors.js';
+import customMessages from './locales/customMessages.js';
 
 const timeOut = 10000;
 const timeInterval = 5000;
@@ -45,6 +45,7 @@ const createLinkedPost = (feedId) => (post) => ({
 });
 
 const loadData = (watchedState, url) => {
+  // eslint-disable-next-line no-param-reassign
   watchedState.loadingFeedback = { formStatus: 'sending', error: '' };
   return axios({
     method: 'get',
@@ -57,12 +58,14 @@ const loadData = (watchedState, url) => {
       watchedState.feeds.push({ ...feed, id: feedId, link: url });
       const linkedPosts = posts.map(createLinkedPost(feedId));
       watchedState.posts.push(...linkedPosts);
+      // eslint-disable-next-line no-param-reassign
       watchedState.loadingFeedback = {
         error: '',
         formStatus: 'success',
       };
     })
     .catch((error) => {
+      // eslint-disable-next-line no-param-reassign
       watchedState.loadingFeedback = {
         error: handlerError(error),
         formStatus: 'failed',
