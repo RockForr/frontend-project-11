@@ -45,7 +45,7 @@ const createLinkedPost = (feedId) => (post) => ({
 });
 
 const loadData = (watchedState, url) => {
-   
+// eslint-disable-next-line no-param-reassign
   watchedState.loadingFeedback = { formStatus: 'sending', error: '' };
   return axios({
     method: 'get',
@@ -58,14 +58,14 @@ const loadData = (watchedState, url) => {
       watchedState.feeds.push({ ...feed, id: feedId, link: url });
       const linkedPosts = posts.map(createLinkedPost(feedId));
       watchedState.posts.push(...linkedPosts);
-       
+// eslint-disable-next-line no-param-reassign
       watchedState.loadingFeedback = {
         error: '',
         formStatus: 'success',
       };
     })
     .catch((error) => {
-       
+// eslint-disable-next-line no-param-reassign
       watchedState.loadingFeedback = {
         error: handlerError(error),
         formStatus: 'failed',
