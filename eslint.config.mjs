@@ -4,7 +4,7 @@ import pluginJs from "@eslint/js";
 
 export default [
   {
-    ignores: ["dist/", "playwright.config.js", "tests-examples", "tests/", "webpack.config.js"]
+    ignores: ["dist/", "webpack.config.js", "eslint.config.mjs"]
   },
   { 
     rules: 
