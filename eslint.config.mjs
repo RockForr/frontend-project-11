@@ -5,8 +5,8 @@ export default [
   {
     ignores: ['dist/', 'webpack.config.js', 'eslint.config.mjs'],
   },
-  { 
-    rules: 
+  {
+    rules:
     {
       'no-param-reassign': 'off',
     },
