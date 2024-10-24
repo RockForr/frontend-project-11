@@ -55,9 +55,9 @@ const loadData = (watchedState, url) => {
     .then((response) => {
       const { feed, posts } = parseFeedData(response.data.contents);
       const feedId = _.uniqueId();
-      watchedState.feeds.push({ ...feed, id: feedId, link: url });
+      watchedState.feeds.unshift({ ...feed, id: feedId, link: url });
       const linkedPosts = posts.map(createLinkedPost(feedId));
-      watchedState.posts.push(...linkedPosts);
+      watchedState.posts.unshift(...linkedPosts);
       // eslint-disable-next-line no-param-reassign
       watchedState.loadingFeedback = {
         error: '',
@@ -77,7 +77,7 @@ const checkNewPosts = (watchedState) => {
   const feedsPromises = watchedState.feeds.map(({ feedId, link }) => axios({
     method: 'get',
     url: buildProxy(link),
-    timeout: timeOut,
+    // timeout: timeOut,
   })
     .then((response) => {
       const { posts } = parseFeedData(response.data.contents);
@@ -86,7 +86,7 @@ const checkNewPosts = (watchedState) => {
 
       if (newPosts.length > 0) {
         const linkedNewPosts = newPosts.map(createLinkedPost(feedId));
-        watchedState.posts.push(...linkedNewPosts);
+        watchedState.posts.unshift(...linkedNewPosts);
       }
       return Promise.resolve();
     }));
