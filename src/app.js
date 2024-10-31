@@ -8,7 +8,6 @@ import watch from './view.js';
 import resources from './locales/index.js';
 import customMessages from './locales/customMessages.js';
 
-const timeOut = 10000;
 const timeInterval = 5000;
 const defaultLanguage = 'ru';
 
@@ -44,41 +43,11 @@ const createLinkedPost = (feedId) => (post) => ({
   id: _.uniqueId(),
 });
 
-const loadData = (watchedState, url) => {
-// eslint-disable-next-line no-param-reassign
-  watchedState.loadingFeedback = { formStatus: 'sending', error: '' };
-  return axios({
-    method: 'get',
-    url: buildProxy(url),
-    timeout: timeOut,
-  })
-    .then((response) => {
-      const { feed, posts } = parseFeedData(response.data.contents);
-      const feedId = _.uniqueId();
-      watchedState.feeds.unshift({ ...feed, id: feedId, link: url });
-      const linkedPosts = posts.map(createLinkedPost(feedId));
-      watchedState.posts.unshift(...linkedPosts);
-      // eslint-disable-next-line no-param-reassign
-      watchedState.loadingFeedback = {
-        error: '',
-        formStatus: 'success',
-      };
-    })
-    .catch((error) => {
-      // eslint-disable-next-line no-param-reassign
-      watchedState.loadingFeedback = {
-        error: handlerError(error),
-        formStatus: 'failed',
-      };
-    });
-};
-
 const checkNewPosts = (watchedState) => {
   const feedsPromises = watchedState.feeds.map(({ feedId, link }) => axios({
     method: 'get',
     url: buildProxy(link),
-    // timeout: timeOut,
-  })
+ })
     .then((response) => {
       const { posts } = parseFeedData(response.data.contents);
       const oldPosts = watchedState.posts.map((post) => post.link);
@@ -158,10 +127,32 @@ export default () => {
               isFeedValid: true,
               error: '',
             };
-            loadData(watchedState, url);
+             
+          watchedState.loadingFeedback = { formStatus: 'sending', error: '' };
+            return axios({
+            method: 'get',
+            url: buildProxy(url),
           })
+          
+          .then((response) => {
+            const { feed, posts } = parseFeedData(response.data.contents);
+            const feedId = _.uniqueId();
+            watchedState.feeds.unshift({ ...feed, id: feedId, link: url });
+            const linkedPosts = posts.map(createLinkedPost(feedId));
+            watchedState.posts.unshift(...linkedPosts);
+       
+            watchedState.loadingFeedback = {
+              error: '',
+              formStatus: 'success',
+            };
+          })
+        })
           .catch((error) => {
-            console.error(error);
+            console.error(error),
+            watchedState.loadingFeedback = {
+              error: handlerError(error),
+              formStatus: 'failed',
+            };
           });
       });
 
